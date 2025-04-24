@@ -1,0 +1,84 @@
+### Auth: Signup
+POST http://localhost:5000/api/auth/signup
+Content-Type: application/json
+
+{
+  "email": "dummy1@example.com",
+  "password": "testpass123"
+}
+
+### Auth: Login
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "dummy1@example.com",
+  "password": "testpass123"
+}
+
+### Clients: Get All (replace {{token}} with a valid JWT)
+GET http://localhost:5000/api/clients
+Authorization: Bearer {{token}}
+
+### Clients: Create
+POST http://localhost:5000/api/clients
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Test Client",
+  "email": "client@example.com",
+  "phone": "1234567890",
+  "notes": "Test notes"
+}
+
+### Projects: Get All
+GET http://localhost:5000/api/projects
+Authorization: Bearer {{token}}
+
+### Projects: Create
+POST http://localhost:5000/api/projects
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Test Project",
+  "status": "Active",
+  "clientId": "{{clientId}}"
+}
+
+### Logs: Get All
+GET http://localhost:5000/api/logs
+Authorization: Bearer {{token}}
+
+### Logs: Create
+POST http://localhost:5000/api/logs
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "date": "2025-04-24T10:00:00.000Z",
+  "type": "Call",
+  "notes": "Discussed requirements",
+  "clientId": "{{clientId}}"
+}
+
+### Reminders: Get All
+GET http://localhost:5000/api/reminders
+Authorization: Bearer {{token}}
+
+### Reminders: Create
+POST http://localhost:5000/api/reminders
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "dueDate": "2025-04-28T09:00:00.000Z",
+  "message": "Follow up with client",
+  "clientId": "{{clientId}}"
+}
+
+### Dashboard
+GET http://localhost:5000/api/dashboard
+Authorization: Bearer {{token}}
+

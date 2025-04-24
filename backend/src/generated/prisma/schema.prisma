@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  clients   Client[]
+}
+
+model Client {
+  id        String           @id @default(uuid())
+  user      User             @relation(fields: [userId], references: [id])
+  userId    String
+  name      String
+  email     String
+  phone     String
+  company   String?
+  notes     String?
+  projects  Project[]
+  logs      InteractionLog[]
+  reminders Reminder[]
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+}
+
+model Project {
+  id        String           @id @default(uuid())
+  client    Client           @relation(fields: [clientId], references: [id])
+  clientId  String
+  title     String
+  budget    Float
+  deadline  DateTime
+  status    String
+  logs      InteractionLog[]
+  reminders Reminder[]
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+}
+
+model InteractionLog {
+  id        String   @id @default(uuid())
+  date      DateTime
+  type      String
+  notes     String?
+  client    Client?  @relation(fields: [clientId], references: [id])
+  clientId  String?
+  project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?
+  createdAt DateTime @default(now())
+}
+
+model Reminder {
+  id          String   @id @default(uuid())
+  dueDate     DateTime
+  description String
+  client      Client?  @relation(fields: [clientId], references: [id])
+  clientId    String?
+  project     Project? @relation(fields: [projectId], references: [id])
+  projectId   String?
+  createdAt   DateTime @default(now())
+}

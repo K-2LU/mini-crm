@@ -173,7 +173,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/mnt/Codes/Web Dev/mini-crm/backend/src/generated/prisma",
+      "value": "G:\\Web\\crm-temp\\backend\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -182,12 +182,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "rhel-openssl-3.0.x",
+        "value": "windows",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/mnt/Codes/Web Dev/mini-crm/backend/prisma/schema.prisma",
+    "sourceFilePath": "G:\\Web\\crm-temp\\backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

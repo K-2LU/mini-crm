@@ -72,7 +72,7 @@ export function Sidebar() {
           Logout
         </Button>
         <Separator className="my-2" />
-        <ThemeToggle />
+        {/* <ThemeToggle /> */}
       </div>
     </div>
   );

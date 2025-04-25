@@ -42,9 +42,10 @@ interface ClientDialogProps {
     company?: string;
     notes?: string;
   } | null;
+  onClientSaved?: (client: any, isEdit: boolean) => void;
 }
 
-export function ClientDialog({ open, onOpenChange, client }: ClientDialogProps) {
+export function ClientDialog({ open, onOpenChange, client, onClientSaved }: ClientDialogProps) {
   const form = useForm<ClientFormValues>({
     resolver: zodResolver(clientSchema),
     defaultValues: {
@@ -58,12 +59,43 @@ export function ClientDialog({ open, onOpenChange, client }: ClientDialogProps) 
 
   const onSubmit = async (data: ClientFormValues) => {
     try {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("Not authenticated");
+      let response;
+      let savedClient;
       if (client) {
-        // TODO: Update existing client
-        console.log("Update client:", { id: client.id, ...data });
+        // update existing client
+        response = await fetch(`http://localhost:5000/api/clients/${client.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+          body: JSON.stringify(data),
+        });
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.error || response.statusText);
+        }
+        // fetch the updated client (optional: you could refetch all clients, but this is more efficient)
+        savedClient = { ...client, ...data };
+        if (onClientSaved) onClientSaved(savedClient, true);
       } else {
-        // TODO: Create new client
-        console.log("Create client:", data);
+        // create a new client
+        response = await fetch("http://localhost:5000/api/clients", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+          body: JSON.stringify(data),
+        });
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.error || response.statusText);
+        }
+        savedClient = await response.json();
+        if (onClientSaved) onClientSaved(savedClient, false);
       }
       onOpenChange(false);
       form.reset();
@@ -159,3 +191,4 @@ export function ClientDialog({ open, onOpenChange, client }: ClientDialogProps) 
     </Dialog>
   );
 }
+

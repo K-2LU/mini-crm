@@ -27,7 +27,7 @@ A modern, full-stack CRM (Customer Relationship Management) application built wi
 
 ### 1. Clone the repository
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/K-2LU/crm-temp
 cd crm-temp
 ```
 

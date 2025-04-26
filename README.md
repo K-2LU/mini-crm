@@ -40,7 +40,7 @@ npm install
 ```
 
 ### 3. Configure environment variables
-- Copy `.env.example` to `.env` in both `backend` and `frontend` as needed, and fill in required values (e.g., database URL, JWT secret).
+- Copy `.env.example` to `.env` in both `backend` and `frontend` as needed, and fill in required values (e.g., database URL, backend URL).
 
 ### 4. Set up the database
 ```bash
@@ -51,7 +51,6 @@ npx prisma migrate dev --name init
 ### 5. Run the backend server
 ```bash
 cd ../backend
-npx prisma migrate dev --name init
 npm npx ts-node-dev src/index.ts
 ```
 

@@ -21,10 +21,6 @@ interface Client {
   notes?: string;
 }
 
-
-
-import { useEffect } from "react";
-
 interface ClientListProps {
   clients: Client[];
   loading: boolean;

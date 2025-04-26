@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
+import { Users } from "lucide-react";
 
 import { useAuth } from "@/contexts/AuthContext";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -41,11 +42,22 @@ interface SidebarProps {
 export function Sidebar() {
   const pathname = usePathname();
   const { logout } = useAuth();
+  const router = require('next/navigation').useRouter();
+
+  const handleLogout = () => {
+    logout();
+    router.push('/');
+  };
 
   return (
-    <div className="flex h-full flex-col border-r bg-background">
+    <div className="flex h-full flex-col border-r bg-background dark:bg-sidebar dark:border-sidebar-border">
       <div className="flex h-14 items-center border-b px-4">
-        <Link href="/dashboard" className="flex items-center font-semibold">
+        <Link
+          href="/dashboard"
+          className="flex items-center gap-2 px-4 py-2 rounded transition-colors duration-150"
+          style={{ minHeight: '2.5rem' }}
+        >
+          <Users className="w-5 h-5" />
           Mini CRM
         </Link>
       </div>
@@ -63,16 +75,16 @@ export function Sidebar() {
           ))}
         </div>
       </ScrollArea>
-      <div className="border-t p-4">
+      <div className="border-t p-4 flex flex-col items-center gap-2">
+        <ThemeToggle />
+        <Separator className="my-2" />
         <Button
           variant="ghost"
-          className="w-full justify-start"
-          onClick={() => logout()}
+          className="flex items-center justify-center font-semibold bg-red-600 hover:bg-red-700 text-white w-[90%]"
+          onClick={handleLogout}
         >
           Logout
         </Button>
-        <Separator className="my-2" />
-        {/* <ThemeToggle /> */}
       </div>
     </div>
   );
@@ -91,6 +103,10 @@ export function MobileSidebar() {
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="p-0">
+        {/* Visually hidden title for accessibility */}
+        <span style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0 }}>
+          <SheetTitle>Navigation</SheetTitle>
+        </span>
         <Sidebar />
       </SheetContent>
     </Sheet>

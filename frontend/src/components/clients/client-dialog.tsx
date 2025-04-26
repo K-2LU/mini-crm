@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -56,6 +57,27 @@ export function ClientDialog({ open, onOpenChange, client, onClientSaved }: Clie
       notes: client?.notes || "",
     },
   });
+
+  // Reset form values when editing a client
+  React.useEffect(() => {
+    if (client) {
+      form.reset({
+        name: client.name || "",
+        email: client.email || "",
+        phone: client.phone || "",
+        company: client.company || "",
+        notes: client.notes || "",
+      });
+    } else {
+      form.reset({
+        name: "",
+        email: "",
+        phone: "",
+        company: "",
+        notes: "",
+      });
+    }
+  }, [client, form]);
 
   const onSubmit = async (data: ClientFormValues) => {
     try {

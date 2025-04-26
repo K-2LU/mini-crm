@@ -22,8 +22,16 @@ export const getLogs = async (req: AuthRequest, res: Response) => {
           { project: { client: { userId: req.userId } } },
         ],
       },
+      include: {
+        client: { select: { name: true } }
+      }
     });
-    res.json(logs);
+    res.json(
+      logs.map(log => ({
+        ...log,
+        clientName: log.client ? log.client.name : '',
+      }))
+    );
   } catch (err: any) {
     res.status(500).json({ error: 'Failed to fetch logs' });
   }

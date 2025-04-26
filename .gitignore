@@ -76,3 +76,6 @@
 
 # Ignore project folder
 /project/
+
+# Ignore windsurf rules file
+.windsurfrules

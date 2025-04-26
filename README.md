@@ -27,8 +27,8 @@ A modern, full-stack CRM (Customer Relationship Management) application built wi
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/K-2LU/crm-temp
-cd crm-temp
+git clone https://github.com/K-2LU/mini-crm
+cd mini-crm
 ```
 
 ### 2. Install dependencies

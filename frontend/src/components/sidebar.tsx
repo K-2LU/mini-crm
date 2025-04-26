@@ -77,10 +77,10 @@ export function Sidebar() {
       </ScrollArea>
       <div className="border-t p-4 flex flex-col items-center gap-2">
         <ThemeToggle />
-        <Separator className="my-2" />
+        {/* <Separator className="my-2" /> */}
         <Button
           variant="ghost"
-          className="flex items-center justify-center font-semibold bg-red-600 hover:bg-red-700 text-white w-[90%]"
+          className="flex items-center justify-center font-semibold bg-red-600 hover:bg-red-700 dark:bg-red-600 dark:hover:bg-red-700 text-white hover:text-white w-[90%]"
           onClick={handleLogout}
         >
           Logout

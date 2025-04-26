@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { apiUrl } from "@/lib/api";
 import {
   Table,
   TableBody,
@@ -44,7 +45,7 @@ export function ReminderList({ reminders, loading, error, fetchReminders }: Remi
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Not authenticated");
-      const res = await fetch(`http://localhost:5000/api/reminders/${id}`, {
+      const res = await fetch(apiUrl(`/reminders/${id}`), {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${token}`,

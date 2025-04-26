@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ClientList } from "@/components/clients/client-list";
 import { ClientDialog } from "@/components/clients/client-dialog";
 import { Button } from "@/components/ui/button";
+import { apiUrl } from "@/lib/api";
 
 export default function ClientsPage() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -17,7 +18,7 @@ export default function ClientsPage() {
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Not authenticated");
-      const res = await fetch("http://localhost:5000/api/clients", {
+      const res = await fetch(apiUrl('/clients'), {
         headers: {
           "Authorization": `Bearer ${token}`,
         },

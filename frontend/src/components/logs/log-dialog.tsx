@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { apiUrl } from "@/lib/api";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -64,7 +65,7 @@ export function LogDialog({ open, onOpenChange, clients, onLogSaved, log }: LogD
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Not authenticated");
       const method = log ? "PUT" : "POST";
-      const url = log ? `http://localhost:5000/api/logs/${log.id}` : "http://localhost:5000/api/logs";
+      const url = log ? apiUrl(`/logs/${log.id}`) : apiUrl('/logs');
       const res = await fetch(url, {
         method,
         headers: {

@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { apiUrl } from "@/lib/api";
 
 interface User {
   id: string;
@@ -35,7 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       try {
         // console.log('Sending verification request...');
-        const res = await fetch("http://localhost:5000/api/auth/me", {
+        const res = await fetch(apiUrl('/auth/me'), {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -73,7 +74,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // console.log('Starting login process...');
     try {
       // console.log('Sending login request...');
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch(apiUrl('/auth/login'), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -103,7 +104,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signup = async (email: string, password: string) => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/signup", {
+      const res = await fetch(apiUrl('/auth/signup'), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

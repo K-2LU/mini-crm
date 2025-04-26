@@ -6,6 +6,7 @@ import { StatsCard } from "@/components/dashboard/stats-card";
 import { StatusChart } from "@/components/dashboard/status-chart";
 import { RecentActivity } from "@/components/dashboard/recent-activity";
 import { UpcomingReminders } from "@/components/dashboard/upcoming-reminders";
+import { apiUrl } from "@/lib/api";
 
 interface DashboardStats {
   totalClients: number;
@@ -53,7 +54,7 @@ export default function DashboardPage() {
       try {
         const token = localStorage.getItem("token");
         if (!token) throw new Error("Not authenticated");
-        const res = await fetch("http://localhost:5000/api/logs", {
+        const res = await fetch(apiUrl('/logs'), {
           headers: { "Authorization": `Bearer ${token}` },
         });
         if (!res.ok) {

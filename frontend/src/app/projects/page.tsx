@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ProjectList } from "@/components/projects/project-list";
 import { ProjectDialog } from "@/components/projects/project-dialog";
 import { Button } from "@/components/ui/button";
+import { apiUrl } from "@/lib/api";
 
 export default function ProjectsPage() {
   const [clients, setClients] = useState<{ id: string; name: string }[]>([]);
@@ -18,7 +19,7 @@ export default function ProjectsPage() {
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Not authenticated");
-      const res = await fetch("http://localhost:5000/api/projects", {
+      const res = await fetch(apiUrl('/projects'), {
         headers: {
           "Authorization": `Bearer ${token}`,
         },
@@ -44,7 +45,7 @@ export default function ProjectsPage() {
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Not authenticated");
-      const res = await fetch("http://localhost:5000/api/clients", {
+      const res = await fetch(apiUrl('/clients'), {
         headers: {
           "Authorization": `Bearer ${token}`,
         },

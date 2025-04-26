@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { apiUrl } from "@/lib/api";
 import {
   Table,
   TableBody,
@@ -45,7 +46,7 @@ const handleDelete = async (id: string) => {
   try {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("Not authenticated");
-    const res = await fetch(`http://localhost:5000/api/logs/${id}`, {
+    const res = await fetch(apiUrl(`/logs/${id}`), {
       method: "DELETE",
       headers: {
         "Authorization": `Bearer ${token}`,

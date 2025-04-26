@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { apiUrl } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ProjectDialog } from "./project-dialog";
@@ -36,7 +37,7 @@ export function ProjectList({ projects, loading, error, fetchProjects, clients }
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Not authenticated");
-      const res = await fetch(`http://localhost:5000/api/projects/${id}` , {
+      const res = await fetch(apiUrl(`/projects/${id}`) , {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${token}`,

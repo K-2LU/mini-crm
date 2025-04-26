@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { apiUrl } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
@@ -52,7 +53,7 @@ export function ProjectDialog({ open, onOpenChange, project, clients, onProjectS
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Not authenticated");
       const method = project ? "PUT" : "POST";
-      const url = project ? `http://localhost:5000/api/projects/${project.id}` : "http://localhost:5000/api/projects";
+      const url = project ? apiUrl(`/projects/${project.id}`) : apiUrl('/projects');
       const res = await fetch(url, {
         method,
         headers: {

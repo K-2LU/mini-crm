@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { apiUrl } from "@/lib/api";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -87,7 +88,7 @@ export function ClientDialog({ open, onOpenChange, client, onClientSaved }: Clie
       let savedClient;
       if (client) {
         // update existing client
-        response = await fetch(`http://localhost:5000/api/clients/${client.id}`, {
+        response = await fetch(apiUrl(`/clients/${client.id}`), {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -104,7 +105,7 @@ export function ClientDialog({ open, onOpenChange, client, onClientSaved }: Clie
         if (onClientSaved) onClientSaved(savedClient, true);
       } else {
         // create a new client
-        response = await fetch("http://localhost:5000/api/clients", {
+        response = await fetch(apiUrl('/clients'), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

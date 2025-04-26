@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { apiUrl } from "@/lib/api";
 import {
   Table,
   TableBody,
@@ -43,7 +44,7 @@ export function ClientList({ clients, loading, error, fetchClients }: ClientList
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Not authenticated");
-      const res = await fetch(`http://localhost:5000/api/clients/${id}`, {
+      const res = await fetch(apiUrl(`/clients/${id}`), {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${token}`,

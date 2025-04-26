@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { LogList } from "@/components/logs/log-list";
 import { LogDialog } from "@/components/logs/log-dialog";
 import { Button } from "@/components/ui/button";
+import { apiUrl } from "@/lib/api";
 
 export default function LogsPage() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -19,10 +20,10 @@ const fetchLogs = async () => {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("Not authenticated");
     const [logsRes, clientsRes] = await Promise.all([
-      fetch("http://localhost:5000/api/logs", {
+      fetch(apiUrl('/logs'), {
         headers: { "Authorization": `Bearer ${token}` },
       }),
-      fetch("http://localhost:5000/api/clients", {
+      fetch(apiUrl('/clients'), {
         headers: { "Authorization": `Bearer ${token}` },
       }),
     ]);
@@ -41,7 +42,7 @@ const fetchLogs = async () => {
 
   useEffect(() => {
   fetchLogs();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  
 }, []);
 
 return (

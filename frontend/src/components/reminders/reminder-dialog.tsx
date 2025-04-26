@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { apiUrl } from "@/lib/api";
 import {
   Dialog,
   DialogContent,
@@ -66,7 +67,7 @@ export function ReminderDialog({ open, onOpenChange, reminder, onReminderSaved }
       let savedReminder;
       if (reminder) {
         // update existing reminder
-        response = await fetch(`http://localhost:5000/api/reminders/${reminder.id}`, {
+        response = await fetch(apiUrl(`/reminders/${reminder.id}`), {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -83,7 +84,7 @@ export function ReminderDialog({ open, onOpenChange, reminder, onReminderSaved }
         if (onReminderSaved) onReminderSaved(savedReminder, true);
       } else {
         // create a new reminder
-        response = await fetch("http://localhost:5000/api/reminders", {
+        response = await fetch(apiUrl('/reminders'), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ReminderList } from "@/components/reminders/reminder-list";
 import { ReminderDialog } from "@/components/reminders/reminder-dialog";
 import { Button } from "@/components/ui/button";
+import { apiUrl } from "@/lib/api";
 
 export default function RemindersPage() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -17,7 +18,7 @@ export default function RemindersPage() {
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Not authenticated");
-      const res = await fetch("http://localhost:5000/api/reminders", {
+      const res = await fetch(apiUrl('/reminders'), {
         headers: {
           "Authorization": `Bearer ${token}`,
         },

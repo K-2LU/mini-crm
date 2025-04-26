@@ -160,8 +160,11 @@ exports.Prisma.InteractionLogScalarFieldEnum = {
 
 exports.Prisma.ReminderScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
+  title: 'title',
   dueDate: 'dueDate',
   description: 'description',
+  completed: 'completed',
   clientId: 'clientId',
   projectId: 'projectId',
   createdAt: 'createdAt'

@@ -6,20 +6,18 @@ import { AuthRequest } from '../middlewares/authMiddleware';
 const prisma = new PrismaClient();
 
 const reminderSchema = z.object({
+  title: z.string().min(1),
   dueDate: z.string(), // ISO string
   description: z.string().min(1),
-  clientId: z.string().uuid().optional(),
-  projectId: z.string().uuid().optional(),
+  completed: z.boolean().optional(),
+  // userId will be set from req.userId, not from the client
 });
 
 export async function getReminders(req: AuthRequest, res: Response) {
   try {
     const reminders = await prisma.reminder.findMany({
       where: {
-        OR: [
-          { client: { userId: req.userId } },
-          { project: { client: { userId: req.userId } } },
-        ],
+        userId: req.userId!,
       },
     });
     res.json(reminders);
@@ -33,10 +31,6 @@ export async function getReminderById(req: AuthRequest, res: Response) {
     const reminder = await prisma.reminder.findFirst({
       where: {
         id: req.params.id,
-        OR: [
-          { client: { userId: req.userId } },
-          { project: { client: { userId: req.userId } } },
-        ],
       },
     });
     if (!reminder) return res.status(404).json({ error: 'Reminder not found' });
@@ -51,8 +45,12 @@ export async function createReminder(req: AuthRequest, res: Response) {
     const data = reminderSchema.parse(req.body);
     const reminder = await prisma.reminder.create({
       data: {
-        ...data,
+        userId: req.userId!,
+        title: data.title,
         dueDate: new Date(data.dueDate),
+        description: data.description,
+        completed: typeof data.completed === 'boolean' ? data.completed : false,
+
       },
     });
     res.status(201).json(reminder);
@@ -67,14 +65,14 @@ export async function updateReminder(req: AuthRequest, res: Response) {
     const reminder = await prisma.reminder.updateMany({
       where: {
         id: req.params.id,
-        OR: [
-          { client: { userId: req.userId } },
-          { project: { client: { userId: req.userId } } },
-        ],
       },
       data: {
-        ...data,
+        ...(data.title && { title: data.title }),
         ...(data.dueDate && { dueDate: new Date(data.dueDate) }),
+        ...(data.description && { description: data.description }),
+        ...(typeof data.completed === 'boolean' && { completed: data.completed }),
+
+        userId: req.userId!,
       },
     });
     if (reminder.count === 0) return res.status(404).json({ error: 'Reminder not found' });
@@ -89,10 +87,6 @@ export async function deleteReminder(req: AuthRequest, res: Response) {
     const reminder = await prisma.reminder.deleteMany({
       where: {
         id: req.params.id,
-        OR: [
-          { client: { userId: req.userId } },
-          { project: { client: { userId: req.userId } } },
-        ],
       },
     });
     if (reminder.count === 0) return res.status(404).json({ error: 'Reminder not found' });

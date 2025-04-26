@@ -73,3 +73,6 @@
 **/*.pem
 **/*.key
 **/*.crt
+
+# Ignore project folder
+/project/

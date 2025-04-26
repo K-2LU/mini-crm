@@ -67,8 +67,11 @@ model InteractionLog {
 
 model Reminder {
   id          String   @id @default(uuid())
+  userId      String
+  title       String
   dueDate     DateTime
   description String
+  completed   Boolean  @default(false)
   client      Client?  @relation(fields: [clientId], references: [id])
   clientId    String?
   project     Project? @relation(fields: [projectId], references: [id])
